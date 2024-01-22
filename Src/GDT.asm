@@ -28,3 +28,12 @@ gdt_criptor:
 
 code equ gdt_code - gdt_null
 data equ gtd_data - gdt_null
+
+[bits 32]
+
+EditGDT:
+    mov [gdt_code + 6], byte 10101111b
+    mov [gdt_code + 6], byte 10101111b
+    ret
+
+[bits 16]

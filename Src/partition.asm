@@ -22,6 +22,9 @@ StartA20:
 
 [bits 32]
 
+%include "CPU.asm"
+%include "Page.asm"
+
 LaunchProtectMode:
     mov ax, data
     mov ds, ax
@@ -36,6 +39,20 @@ LaunchProtectMode:
     mov [0xb8006], byte 'T'
     mov [0xb8008], byte ' '
 
+    call CPU_Detection
+    call LongMode_Detection
+    call Paging
+    call EditGDT
+
+    jmp code:Open_64bit
+
+[bits 64]
+
+Open_64bit:
+    mov edi, 0xb8000
+    mov rax, 0x1f201f201f201f20
+    mov ecx, 500
+    rep stosq
     jmp $
 
 times 2048-($-$$)db 0
