@@ -1,13 +1,23 @@
 cd src
 
-nasm main.asm -f bin -o main.bin
+nasm Boot.asm -f bin -o boot.bin
+nasm partition.asm -f bin -o partition.bin
 
-copy /b main.bin boot.flp
-del main.bin
-robocopy D:\Slayer-OS\src D:\Slayer-OS\System boot.flp
+robocopy L:\ASM\Slayer-os\Src L:\ASM\Slayer-os\build boot.bin
+robocopy L:\ASM\Slayer-os\Src L:\ASM\Slayer-os\build partition.bin
+
+del boot.bin
+del partition.bin
+
 cd..
-cd src
+cd build
+
+copy /b boot.bin+partition.bin boot.flp
+
+robocopy L:\ASM\Slayer-os\build L:\ASM\Slayer-os\System boot.flp
+
 del boot.flp
+
 cd..
 cd System
 call bochsrc.bxrc
